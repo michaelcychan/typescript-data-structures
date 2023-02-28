@@ -98,7 +98,7 @@ describe('TwoWayLinkedList', () => {
       const myList = new TwoWayLinkedList();
       const removed = myList.removeHead();
 
-      expect(removed).toBe(null)
+      expect(removed).toBe(undefined)
       expect(myList.length()).toBe(0)
     })
     it('returns original head node if attempting to remove from a list with one node', () => {
@@ -132,7 +132,7 @@ describe('TwoWayLinkedList', () => {
       const myList = new TwoWayLinkedList();
       const removed = myList.removeTail();
 
-      expect(removed).toBe(null)
+      expect(removed).toBe(undefined)
       expect(myList.length()).toBe(0)
     })
     it('returns original tail node if attempting to remove from a list with one node', () => {

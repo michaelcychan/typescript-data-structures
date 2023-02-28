@@ -76,46 +76,38 @@ export class TwoWayLinkedList {
     return counter;
   }
 
-  removeHead():(number | null) {
-    if (this.#head) {
-      const nodeRemoval = this.#head
-      const newHead = this.#head.getNext()
-      this.#head = newHead
-      if (newHead) {
-        newHead.setPrev(null)
-      }
-      if (nodeRemoval === this.#tail) {
-        this.#tail = null
-      }
-      if (nodeRemoval) {
-        return nodeRemoval.getValue()
-      } else {
-        return null
-      }
-      
+  removeHead():(number | void) {
+    if (!this.#head) {
+      return 
     }
-    return null
+    const nodeRemoval = this.#head
+    this.#head = this.#head.getNext()
+    if (this.#head) {
+      this.#head.setPrev(null)
+    }
+    if (nodeRemoval === this.#tail) {
+      this.#tail = null
+    }
+    if (nodeRemoval) {
+      return nodeRemoval.getValue()
+    } else {
+      return
+    }
   }
 
-  removeTail():(number | null){
-    if (this.#tail) {
-      const nodeRemoval = this.#tail
-      const newTail = this.#tail.getPrev()
-      this.#tail = newTail
-      if (newTail) {
-        newTail.setNext(null)
-      }
-      if (nodeRemoval === this.#head) {
-        this.#head = null
-      }
-      if (nodeRemoval) {
-        return nodeRemoval.getValue()
-      } else {
-        return null
-      }
-      
+  removeTail():(number | void){
+    if (!this.#tail) {
+      return
     }
-    return null
+    const nodeRemoval = this.#tail
+    this.#tail = this.#tail.getPrev()
+    if (this.#tail) {
+      this.#tail.setNext(null)
+    }
+    if (nodeRemoval === this.#head) {
+      this.#head = null
+    }
+    return nodeRemoval.getValue()
   }
 
   removeByValue(value:number):(number | null) {
