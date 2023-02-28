@@ -14,18 +14,38 @@ export class MyQueue {
     this.#size = 0;
   }
 
+  #isEmpty(){
+    return this.#size === 0;
+  }
+
+  #hasSpace(){
+    return this.#maxSize > this.#size;
+  }
+
+  getMaxSize():number {
+    return this.#maxSize;
+  }
+
   getSize():number {
     return this.#size;
   }
 
   enqueue(data:number){
-    this.#queue.addToTail(data);
-    this.#size += 1;
+    if (this.#hasSpace()) {
+      this.#queue.addToTail(data);
+      this.#size += 1;
+    } else {
+      throw 'Queue is full'
+    }
   }
 
   dequeue() {
-    this.#size -= 1;
-    return this.#queue.removeHead()
+    if (this.#isEmpty()) {
+      throw 'Queue is empty'
+    } else {
+      this.#size -= 1;
+      return this.#queue.removeHead()
+    }
   }
 
   peek() {

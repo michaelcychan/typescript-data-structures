@@ -68,3 +68,22 @@ stringify()
 .removeByValue(value)
 // remove the node with the target value
 ```
+## Queue
+The `MyQueue` class utilises the `MyNumLinkedList` class. A queue stores and removes data in FIFO principle. `MyQueue` class has the following functions:
+
+```
+.getMaxSize()
+// returns the max size of the queue
+
+.getSize()
+// returns the current size of the Queue
+
+.enqueue(data)
+// add a new data to the tail of the queue
+
+.dequeue()
+// remove the item from head
+
+.peek()
+// returns the head of the queue (the one which will be dequeued next)
+```

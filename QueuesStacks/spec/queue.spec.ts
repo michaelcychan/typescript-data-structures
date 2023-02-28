@@ -30,6 +30,31 @@ describe('MyQueue', () => {
 
       expect(myQueue.getSize()).toBe(1);
       expect(myQueue.peek()).toBe(50)
+    });
+    it('enqueue multiple data to a queue', () => {
+      const queue = new MyQueue(5);
+      queue.enqueue(1);
+      queue.enqueue(2);
+      queue.enqueue(3);
+      queue.enqueue(4);
+      queue.enqueue(5);
+
+      expect(queue.peek()).toBe(1);
+      expect(queue.getSize()).toBe(5);
+    })
+    it('enqueue multiple data to a queue', () => {
+      const queue = new MyQueue(5);
+      queue.enqueue(1);
+      queue.enqueue(2);
+      queue.enqueue(3);
+      queue.enqueue(4);
+      queue.enqueue(5);
+      expect(() => {
+        queue.enqueue(6)
+      }).toThrow('Queue is full')
+
+      expect(queue.peek()).toBe(1);
+      expect(queue.getSize()).toBe(5);
     })
   })
   describe('dequeue', () => {
@@ -40,6 +65,12 @@ describe('MyQueue', () => {
       expect(myQueue.getSize()).toBe(0);
       expect(myQueue.peek()).toBe(null);
       expect(removed).toBe(50)
+    });
+    it('dequeues an empty queue and throws error', () => {
+      const myQueue = new MyQueue();
+      expect(() => {
+        myQueue.dequeue()
+      }).toThrow('Queue is empty');
     })
   })
 })
