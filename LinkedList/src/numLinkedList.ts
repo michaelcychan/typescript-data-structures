@@ -20,10 +20,19 @@ export class MyNumLinkedList {
 
   addNewHead(newValue: number) {
     const newNode = new MyNumberNode(newValue)
-    if (this.#head != null) {
+    if (this.#head !== null) {
       newNode.setNext(this.#head)
     }
     this.#head = newNode
+  }
+
+  removeHead() {
+    if (this.#head === null) {
+      return
+    }
+    const removedHead = this.#head;
+    this.#head = removedHead.getNext()
+    return removedHead.getValue()
   }
 
   stringifyList(){
