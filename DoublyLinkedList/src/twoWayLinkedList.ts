@@ -1,4 +1,4 @@
-import {NodeType, MyTwoWayNode} from './node'
+import {NodeType, MyTwoWayNode} from '../../Nodes/src/twoWayNode'
 
 export class TwoWayLinkedList {
 

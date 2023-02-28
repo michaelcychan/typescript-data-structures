@@ -1,5 +1,5 @@
-import {MyNumberNode} from './node'
-import {NodeType} from './node'
+import {MyNumberNode} from '../../Nodes/src/node';
+import {NodeType} from '../../Nodes/src/node';
 
 type ValueType = number | null
 
@@ -24,6 +24,24 @@ export class MyNumLinkedList {
       newNode.setNext(this.#head)
     }
     this.#head = newNode
+  }
+
+  addToTail(newValue:number) {
+    const newTail = new MyNumberNode(newValue)
+    if (!this.#head) {
+      this.addNewHead(newValue)
+    } else {
+      let currentNode = this.#head;
+
+      while (currentNode.getNext() !== null) {
+        const nextNode = currentNode.getNext()
+        if (nextNode) {
+          currentNode = nextNode
+        }
+      }
+      currentNode.setNext(newTail)
+    }
+  
   }
 
   removeHead() {

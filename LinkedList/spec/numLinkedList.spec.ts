@@ -1,4 +1,3 @@
-import {MyNumberNode} from '../src/node';
 import {MyNumLinkedList} from '../src/numLinkedList';
 
 describe('MyNumberLinkedList', () => {
@@ -24,6 +23,13 @@ describe('MyNumberLinkedList', () => {
       myList.addNewHead(7)
 
       expect(myList.stringifyList()).toBe("7")
+    })
+  })
+  describe('addNewTail', () => {
+    it('adds a new value to tail', () => {
+      const myList = new MyNumLinkedList(35);
+      myList.addToTail(45);
+      expect(myList.stringifyList()).toBe("35-45")
     })
   })
   describe('remove a node', () => {
