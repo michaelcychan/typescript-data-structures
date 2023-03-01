@@ -6,11 +6,13 @@ describe('MyStack', () => {
       const mystack = new MyStack();
       expect(mystack.getSize()).toBe(0);
       expect(mystack.peek()).toBe(null);
+      expect(mystack.getMaxSize()).toBe(Infinity);
     });
     it('initiates with maxSize without error', () => {
       const myStack = new MyStack(5);
       expect(myStack.getSize()).toBe(0);
       expect(myStack.peek()).toBe(null);
+      expect(myStack.getMaxSize()).toBe(5)
     });
     it('throws error when initialises with a negative number', () => {
       expect(() => {
@@ -24,7 +26,7 @@ describe('MyStack', () => {
     });
   });
   describe('push', () => {
-    it('push a number to an empty queue', () => {
+    it('push a number to an empty stack', () => {
       const myStack = new MyStack();
       myStack.push(50);
 
@@ -42,35 +44,35 @@ describe('MyStack', () => {
       expect(stack.peek()).toBe(5);
       expect(stack.getSize()).toBe(5);
     })
-  //   it('enqueue multiple data to a queue', () => {
-  //     const queue = new MyQueue(5);
-  //     queue.push(1);
-  //     queue.enqueue(2);
-  //     queue.enqueue(3);
-  //     queue.enqueue(4);
-  //     queue.enqueue(5);
-  //     expect(() => {
-  //       queue.enqueue(6)
-  //     }).toThrow('Queue is full')
+    it('push multiple data to a stack', () => {
+      const stack = new MyStack(5);
+      stack.push(1);
+      stack.push(2);
+      stack.push(3);
+      stack.push(4);
+      stack.push(5);
+      expect(() => {
+        stack.push(6)
+      }).toThrow('stack is full')
 
-  //     expect(queue.peek()).toBe(1);
-  //     expect(queue.getSize()).toBe(5);
-  //   })
+      expect(stack.peek()).toBe(5);
+      expect(stack.getSize()).toBe(5);
+    })
   })
-  // describe('dequeue', () => {
-  //   it('dequeue a queue', () => {
-  //     const myQueue = new MyQueue();
-  //     myQueue.enqueue(50);
-  //     const removed = myQueue.dequeue();
-  //     expect(myQueue.getSize()).toBe(0);
-  //     expect(myQueue.peek()).toBe(null);
-  //     expect(removed).toBe(50)
-  //   });
-  //   it('dequeues an empty queue and throws error', () => {
-  //     const myQueue = new MyQueue();
-  //     expect(() => {
-  //       myQueue.dequeue()
-  //     }).toThrow('Queue is empty');
-  //   })
-  // })
+  describe('pop', () => {
+    it('pop a queue', () => {
+      const myStack = new MyStack();
+      myStack.push(50);
+      const removed = myStack.pop();
+      expect(myStack.getSize()).toBe(0);
+      expect(myStack.peek()).toBe(null);
+      expect(removed).toBe(50)
+    });
+    it('pops an empty stack and throws error', () => {
+      const myStack = new MyStack();
+      expect(() => {
+        myStack.pop()
+      }).toThrow('stack is empty');
+    })
+  })
 })

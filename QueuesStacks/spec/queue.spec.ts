@@ -11,6 +11,7 @@ describe('MyQueue', () => {
       const myQueue = new MyQueue(5);
       expect(myQueue.getSize()).toBe(0);
       expect(myQueue.peek()).toBe(null);
+      expect(myQueue.getMaxSize()).toBe(5);
     });
     it('throws error when initialises with a negative number', () => {
       expect(() => {

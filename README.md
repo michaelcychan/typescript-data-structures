@@ -85,5 +85,24 @@ The `MyQueue` class utilises the `MyNumLinkedList` class. A queue stores and rem
 // remove the item from head
 
 .peek()
-// returns the head of the queue (the one which will be dequeued next)
+// returns the head of the queue (the one enqueued first and will be dequeued next)
+```
+## Stack
+The `MyStack` class utilises the `MyNumLinkedList` class. A queue stores and removes data in *FILO* principle. `MyStack` class has the following functions:
+
+```
+.getMaxSize()
+// returns the max size of the stack
+
+.getSize()
+// returns the current size of the stack
+
+.push(data)
+// add a new data to the top of the stack
+
+.pop()
+// remove the item from top
+
+.peek()
+// returns the top of the stack (the one pushed last and will be popped next)
 ```

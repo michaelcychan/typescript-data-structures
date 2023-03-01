@@ -14,6 +14,18 @@ export class MyStack {
     this.#maxSize = maxSize
   }
 
+  #isEmpty() {
+    return this.#size === 0
+  }
+
+  #hasSpace() {
+    return this.#maxSize > this.#size
+  }
+
+  getMaxSize() {
+    return this.#maxSize;
+  }
+
   getSize(){
     return this.#size
   }
@@ -27,7 +39,20 @@ export class MyStack {
   }
 
   push(value:number) {
-    this.#stack.addNewHead(value)
-    this.#size += 1
+    if (this.#hasSpace()) {
+      this.#stack.addNewHead(value)
+      this.#size += 1
+    } else {
+      throw 'stack is full'
+    }
+  }
+
+  pop(){
+    if (this.#isEmpty()) {
+      throw 'stack is empty'
+    } else {
+      this.#size -= 1;
+      return this.#stack.removeHead()
+    }
   }
 }
