@@ -1,33 +1,31 @@
-export type NodeType = MyTwoWayNode | null
-
-export class MyTwoWayNode {
-  #value: number
-  #nextNode: NodeType
-  #prevNode: NodeType
+export class MyTwoWayNode<T> {
+  #value: T
+  #nextNode: (MyTwoWayNode<T> | null)
+  #prevNode: (MyTwoWayNode<T> | null)
   
-  constructor(value: number) {
+  constructor(value: T) {
     this.#value = value
     this.#nextNode = null
     this.#prevNode = null
   }
 
-  getValue(){
+  getValue():(T|null){
     return this.#value
   }
 
-  getNext(){
+  getNext():(MyTwoWayNode<T>|null){
     return this.#nextNode
   }
 
-  getPrev(){
+  getPrev():(MyTwoWayNode<T>|null){
     return this.#prevNode
   }
 
-  setNext(nextNode: NodeType){
+  setNext(nextNode: (MyTwoWayNode<T>|null)){
     this.#nextNode = nextNode
   }
 
-  setPrev(prevNode: NodeType){
+  setPrev(prevNode: (MyTwoWayNode<T>|null)){
     this.#prevNode = prevNode
   }
 }

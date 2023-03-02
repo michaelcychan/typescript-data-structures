@@ -1,13 +1,13 @@
-import {NodeType, MyTwoWayNode} from '../../Nodes/src/twoWayNode'
+import {MyTwoWayNode} from '../../Nodes/src/twoWayNode'
 
-export class TwoWayLinkedList {
+export class TwoWayLinkedList<Type> {
 
-  #head: NodeType;
-  #tail: NodeType;
+  #head: (MyTwoWayNode<Type> | null);
+  #tail: (MyTwoWayNode<Type> | null);
 
-  constructor(value:number | null = null) {
+  constructor(value:Type | null = null) {
     if (value) {
-      const firstNode: NodeType = new MyTwoWayNode(value)
+      const firstNode: MyTwoWayNode<Type> = new MyTwoWayNode(value)
       this.#head = firstNode;
       this.#tail = firstNode;
     } else {
@@ -40,21 +40,19 @@ export class TwoWayLinkedList {
     return output
   }
 
-  addHead(newValue: number) {
+  addHead(newValue:Type) {
     const newNode = new MyTwoWayNode(newValue)
     newNode.setNext(this.#head)
     if (this.#head) {
       this.#head.setPrev(newNode)
     }
     this.#head = newNode
-    
     if (!this.#tail) {
       this.#tail = newNode
     }
-
   }
 
-  addTail(value:number) {
+  addTail(value:Type) {
     const newTail = new MyTwoWayNode(value);
     newTail.setPrev(this.#tail)
     if (this.#tail) {
@@ -62,7 +60,7 @@ export class TwoWayLinkedList {
     }
     this.#tail = newTail
     if (!this.#head) {
-      this.#head = newTail
+      this.#head = newTail;
     }
   }
 
@@ -76,9 +74,9 @@ export class TwoWayLinkedList {
     return counter;
   }
 
-  removeHead():(number | void) {
+  removeHead():(Type | null) {
     if (!this.#head) {
-      return 
+      return null
     }
     const nodeRemoval = this.#head
     this.#head = this.#head.getNext()
@@ -88,16 +86,12 @@ export class TwoWayLinkedList {
     if (nodeRemoval === this.#tail) {
       this.#tail = null
     }
-    if (nodeRemoval) {
-      return nodeRemoval.getValue()
-    } else {
-      return
-    }
+    return nodeRemoval.getValue()
   }
 
-  removeTail():(number | void){
+  removeTail():(Type | null){
     if (!this.#tail) {
-      return
+      return null
     }
     const nodeRemoval = this.#tail
     this.#tail = this.#tail.getPrev()
@@ -110,8 +104,11 @@ export class TwoWayLinkedList {
     return nodeRemoval.getValue()
   }
 
-  removeByValue(value:number):(number | null) {
+  removeByValue(value:Type):(Type | null) {
     let currentNode = this.#head;
+    if (!currentNode) {
+      return null
+    }
     while (currentNode) {
       if (currentNode.getValue() == value) {
         break
@@ -126,7 +123,6 @@ export class TwoWayLinkedList {
       } else {
         const prevNode = currentNode.getPrev()
         const nextNode = currentNode.getNext()
-
         if (prevNode) {
           prevNode.setNext(nextNode)
         }
@@ -134,12 +130,9 @@ export class TwoWayLinkedList {
           nextNode.setPrev(prevNode)
         }
       }
-    }
-    if (currentNode) {
       return currentNode.getValue()
     } else {
       return null
     }
-    
   }
 }

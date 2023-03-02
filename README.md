@@ -34,9 +34,9 @@ The `MyNumLinkedList` class has the following functions:
 ```
 
 ## Doubly Linked List
-The Doubly Linked List Class `TwoWayLinkedList` stores numbers. Each `TwoWayLinkedList` consists of instances of the `MyTwoWayNode` class.  
+The Doubly Linked List Class `TwoWayLinkedList` is a generic class which can store different types of data. Each `TwoWayLinkedList` consists of instances of the `MyTwoWayNode` class, which also stores generic type of data. Only nodes storing the same type of data can be linked together. 
 
-Each `MyTwoWayNode` stores a number and two pointers, one to the next and one to the previous `MyTwoWayNode`.  
+Each `MyTwoWayNode` stores one data and two pointers, one to the next and one to the previous `MyTwoWayNode`.  
 
 The `TwoWayLinkedList` class has the following functions: 
 
@@ -87,6 +87,7 @@ The `MyQueue` class utilises the `MyNumLinkedList` class. A queue stores and rem
 .peek()
 // returns the head of the queue (the one enqueued first and will be dequeued next)
 ```
+
 ## Stack
 The `MyStack` class utilises the `MyNumLinkedList` class. A queue stores and removes data in *FILO* principle. `MyStack` class has the following functions:
 
