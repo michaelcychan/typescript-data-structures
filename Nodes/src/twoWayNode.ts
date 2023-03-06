@@ -9,7 +9,7 @@ export class MyTwoWayNode<T> {
     this.#prevNode = null
   }
 
-  getValue():(T|null){
+  getValue():T{
     return this.#value
   }
 

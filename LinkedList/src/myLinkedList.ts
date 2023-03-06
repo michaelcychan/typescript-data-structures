@@ -1,14 +1,11 @@
-import {MyNumberNode} from '../../Nodes/src/node';
-import {NodeType} from '../../Nodes/src/node';
+import {MyNode} from '../../Nodes/src/node';
 
-type ValueType = number | null
+export class MyLinkedList<T> {
+  #head: MyNode<T> | null
 
-export class MyNumLinkedList {
-  #head: NodeType
-
-  constructor(value:ValueType = null) {
+  constructor(value:T|null = null) {
     if (value != null) {
-      this.#head = new MyNumberNode(value)
+      this.#head = new MyNode(value)
     } else {
       this.#head = null
     }
@@ -18,16 +15,16 @@ export class MyNumLinkedList {
     return this.#head
   }
 
-  addNewHead(newValue: number) {
-    const newNode = new MyNumberNode(newValue)
+  addNewHead(newValue: T) {
+    const newNode = new MyNode(newValue)
     if (this.#head !== null) {
       newNode.setNext(this.#head)
     }
     this.#head = newNode
   }
 
-  addToTail(newValue:number) {
-    const newTail = new MyNumberNode(newValue)
+  addToTail(newValue:T) {
+    const newTail = new MyNode(newValue)
     if (!this.#head) {
       this.addNewHead(newValue)
     } else {
@@ -41,7 +38,6 @@ export class MyNumLinkedList {
       }
       currentNode.setNext(newTail)
     }
-  
   }
 
   removeHead() {
@@ -54,20 +50,30 @@ export class MyNumLinkedList {
   }
 
   stringifyList(){
-    let current: NodeType = this.getHead()
+    if (this.getHead() === null) {
+      return "";
+    }
+    let currentNode: MyNode<T>|null = this.getHead()
     let outputString = ""
-    while (current) {
-      outputString += current.getValue().toString()
-      const nextNode = current.getNext()
+    while (currentNode) {
+      const currentValue: T = currentNode.getValue()
+      if (typeof currentValue === "number") {
+        outputString += currentValue.toString()
+      } else if (typeof currentValue === "string") {
+        outputString += currentValue;
+      } else {
+        return "can only stringify number and string"
+      }
+      const nextNode = currentNode.getNext()
       if (nextNode) {
         outputString += "-"
       }
-      current = nextNode
+      currentNode = nextNode
     }
     return outputString
   }
 
-  setNewHead(newNode: NodeType) {
+  setNewHead(newNode: MyNode<T> | null) {
     this.#head = newNode
   }
 
@@ -81,8 +87,8 @@ export class MyNumLinkedList {
     return counter
   }
 
-  removeNode(value:number) {
-    let current: NodeType = this.getHead()
+  removeNode(value:T) {
+    let current: MyNode<T>| null = this.getHead()
     if (current) {
       if (current.getValue() === value) {
         this.setNewHead(current.getNext())
@@ -94,7 +100,6 @@ export class MyNumLinkedList {
     }
     while (current) {
       const nextNode = current.getNext()
-
       if (nextNode) {
         if (nextNode.getValue() === value) {
           current.setNext(nextNode.getNext())
@@ -102,7 +107,6 @@ export class MyNumLinkedList {
         } else {
           current = current.getNext()
         }
-      
       } else {
         console.error(`target: ${value} not found, nothing was removed`)
         return null
@@ -110,7 +114,7 @@ export class MyNumLinkedList {
     }
   }
 
-  reverseIndex(fromLast:number):ValueType {
+  reverseIndex(fromLast:number):T|null {
     let tailPointer = this.getHead();
     let targetPointer = this.getHead();
     const head = this.getHead()
@@ -139,8 +143,8 @@ export class MyNumLinkedList {
     let currentA = this.getHead()
     let currentB = this.getHead()
 
-    let prevA: NodeType = null;
-    let prevB: NodeType = null;
+    let prevA: MyNode<T>|null = null;
+    let prevB: MyNode<T>|null = null;
 
     while (currentA) {
       if (currentA) {
@@ -165,7 +169,6 @@ export class MyNumLinkedList {
     }
 
     if (currentA && currentB) {
-      
       // cannot reverse order, will cause ciruclar link
       const tempA = currentA
       if (prevA) {

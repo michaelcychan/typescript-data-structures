@@ -1,27 +1,25 @@
-export type NodeType = MyNumberNode | null
+export class MyNode<T> {
+  #value: T;
+  #next: (MyNode<T>|null);
 
-export class MyNumberNode {
-  #value: number;
-  #next: NodeType
-
-  constructor(value:number, next:NodeType = null){
+  constructor(value:T, next:MyNode<T> | null = null){
     this.#value = value;
     this.#next = next;
   }
 
-  getValue(): number{
+  getValue(): T{
     return this.#value;
   }
 
-  setValue(newValue:number) {
+  setValue(newValue:T) {
     this.#value = newValue;
   }
 
-  getNext(): NodeType{
+  getNext(): MyNode<T>|null{
     return this.#next;
   }
 
-  setNext(next: NodeType){
+  setNext(next: MyNode<T>|null){
     this.#next = next;
   }
 }
