@@ -1,7 +1,7 @@
-import {MyNumLinkedList} from '../../LinkedList/src/numLinkedList';
+import {MyLinkedList} from '../../LinkedList/src/myLinkedList';
 
-export class MyStack {
-  #stack:MyNumLinkedList
+export class MyStack<T> {
+  #stack:MyLinkedList<T>
   #size:number;
   #maxSize:number;
 
@@ -9,7 +9,7 @@ export class MyStack {
     if (maxSize <= 0 || maxSize != Infinity && !Number.isInteger(maxSize)) {
       throw 'maxSize must be an integer greater than 0'
     }
-    this.#stack = new MyNumLinkedList();
+    this.#stack = new MyLinkedList();
     this.#size = 0
     this.#maxSize = maxSize
   }
@@ -38,7 +38,7 @@ export class MyStack {
     }
   }
 
-  push(value:number) {
+  push(value:T) {
     if (this.#hasSpace()) {
       this.#stack.addNewHead(value)
       this.#size += 1

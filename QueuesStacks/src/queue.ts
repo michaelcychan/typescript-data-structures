@@ -1,7 +1,7 @@
-import {MyNumLinkedList} from '../../LinkedList/src/numLinkedList';
+import {MyLinkedList} from '../../LinkedList/src/myLinkedList';
 
-export class MyQueue {
-  #queue: MyNumLinkedList;
+export class MyQueue<T> {
+  #queue: MyLinkedList<T>;
   #size: number;
   #maxSize: number;
 
@@ -10,7 +10,7 @@ export class MyQueue {
       throw 'maxSize must be an integer greater than 0'
     }
     this.#maxSize = maxSize;
-    this.#queue = new MyNumLinkedList()
+    this.#queue = new MyLinkedList()
     this.#size = 0;
   }
 
@@ -30,7 +30,7 @@ export class MyQueue {
     return this.#size;
   }
 
-  enqueue(data:number){
+  enqueue(data:T){
     if (this.#hasSpace()) {
       this.#queue.addToTail(data);
       this.#size += 1;
