@@ -1,14 +1,14 @@
-# data-structure-practice
+# Data Structure Practice
 This repo is for me to learn the basic data strcutures
 
-I attempt to learn different data structures by implementing my own versions using TypeScript.
+I attempt to learn different data structures by building them from scratch using TypeScript.
 
 ## Basic Linked List
-The Linked List Class `MyNumLinkedList` stores numbers. Each `MyNumLinkedList` consists of instances of the `MyNumberNode` class.  
+The Linked List Class `MyLinkedList` stores generic type. Each `MyLinkedList` consists of instances of the `MyNode` class.  
 
-Each `MyNumberNode` stores a number and a pointer to the next `MyNumberNode`.  
+Each `MyNode` stores a generic data and a pointer to the next `MyNode`.  
 
-The `MyNumLinkedList` class has the following functions:  
+The `MyLinkedList` class has the following functions:  
 ```
 .length()
 // to return the length of the list
@@ -30,6 +30,9 @@ The `MyNumLinkedList` class has the following functions:
 
 .findMid()
 // to find the middle node (tail-centered) of the List
+
+.stringifyList()
+// to return a stringified version of the list (only when stored data is number or string)
 
 ```
 
@@ -106,4 +109,19 @@ The `MyStack` class utilises the `MyNumLinkedList` class. A queue stores and rem
 
 .peek()
 // returns the top of the stack (the one pushed last and will be popped next)
+```
+
+## Hash Map
+
+The `MyHash` class utilises the `MyLinkedList` class to store key-value pairs. `MyHash` class has the following functions:  
+
+```
+.set(key, value)
+// Store / amend data with key as identifier. key can be number or string.
+
+.retrieve(key)
+// returns the value of the key-value pair. returns null if no such key exists
+
+.delete(key)
+// delete the key-value pair
 ```
