@@ -1,5 +1,3 @@
-import { stringify } from "querystring";
-
 export class Tree {
   #value:number;
   #children:Tree[];
@@ -35,6 +33,21 @@ export class Tree {
     return this.#children;
   }
 
+  breadthFirstTraversal():number[] {
+    const traversedArray:number[] = [this.#value];
+    if (this.#children.length > 0) {
+      let stack:Tree[] = [...this.#children];
+      while (stack.length > 0) {
+        let currentTree = stack.shift()
+        if (currentTree) {
+          traversedArray.push(currentTree.#value);
+          stack = stack.concat(currentTree.#children)
+        }
+      }
+    }
+    return traversedArray;
+  }
+
   depthFirstTraversalRecursive():number[] {
     const traversedArray:number[] = [this.#value]
     for (let i = 0 ; i < this.#children.length; i++) {
@@ -53,7 +66,6 @@ export class Tree {
 
   stringify():string{
     let outputString = this.#value.toString() + "\n"
-
     for (let i = 0; i < this.#children.length; i++) {
       outputString = this.#children[i].#str(outputString, 1)
     }

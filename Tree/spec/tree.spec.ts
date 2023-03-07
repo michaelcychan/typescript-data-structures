@@ -91,6 +91,33 @@ describe("Tree", () => {
       tree30.addChild(tree20);
 
       expect(treeRoot.depthFirstTraversalRecursive().length).toBe(6);
+      expect(treeRoot.depthFirstTraversalRecursive()).toStrictEqual([50, 30, 10, 2, 1, 20]);
+    });
+    describe("breadthFirstTraversal", () => {
+      it("traverses a tree with only root", () => {
+        const treeRoot = new Tree(50);
+  
+        expect(treeRoot.breadthFirstTraversal().length).toBe(1)
+        expect(treeRoot.breadthFirstTraversal()[0]).toBe(50);
+      });
+      it("traverses all nodes and adds return an flattend array", () => {
+        const treeRoot = new Tree(50);
+        const tree30 = new Tree(30);
+        const tree10 = new Tree(10);
+        const tree1 = new Tree(1);
+        const tree2 = new Tree(2);
+  
+        const tree20 = new Tree(20);
+  
+        tree10.addChild(tree2);
+        tree10.addChild(tree1);
+        tree30.addChild(tree10);
+        treeRoot.addChild(tree30);
+        tree30.addChild(tree20);
+  
+        expect(treeRoot.breadthFirstTraversal().length).toBe(6);
+        expect(treeRoot.breadthFirstTraversal()).toStrictEqual([50, 30, 10, 20, 2, 1]);
+      });
     })
 
   })
