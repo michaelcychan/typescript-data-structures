@@ -54,10 +54,44 @@ describe("Tree", () => {
       const tree50 = new Tree(50);
       const tree30 = new Tree(30);
       const tree10 = new Tree(10);
+      const tree1 = new Tree(1);
+      const tree2 = new Tree(2);
+
+      const tree20 = new Tree(20);
+
+      tree10.addChild(tree2);
+      tree10.addChild(tree1);
       tree30.addChild(tree10);
       tree50.addChild(tree30);
+      tree30.addChild(tree20);
       
-      expect(tree50.stringify()).toBe("50\n-- 30\n-- -- 10\n");
+      expect(tree50.stringify()).toBe("50\n-- 30\n-- -- 10\n-- -- -- 2\n-- -- -- 1\n-- -- 20\n");
     })
+  })
+  describe("depthFirstTraversalRecursive", () => {
+    it("traverses a tree with only root", () => {
+      const treeRoot = new Tree(50);
+
+      expect(treeRoot.depthFirstTraversalRecursive().length).toBe(1)
+      expect(treeRoot.depthFirstTraversalRecursive()[0]).toBe(50);
+    })
+    it("traverses all nodes and adds return an flattend array", () => {
+      const treeRoot = new Tree(50);
+      const tree30 = new Tree(30);
+      const tree10 = new Tree(10);
+      const tree1 = new Tree(1);
+      const tree2 = new Tree(2);
+
+      const tree20 = new Tree(20);
+
+      tree10.addChild(tree2);
+      tree10.addChild(tree1);
+      tree30.addChild(tree10);
+      treeRoot.addChild(tree30);
+      tree30.addChild(tree20);
+
+      expect(treeRoot.depthFirstTraversalRecursive().length).toBe(6);
+    })
+
   })
 })

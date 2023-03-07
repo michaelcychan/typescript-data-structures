@@ -35,6 +35,22 @@ export class Tree {
     return this.#children;
   }
 
+  depthFirstTraversalRecursive():number[] {
+    const traversedArray:number[] = [this.#value]
+    for (let i = 0 ; i < this.#children.length; i++) {
+      this.#children[i].#depFirTraRec(traversedArray);
+    }
+    return traversedArray
+  }
+
+  #depFirTraRec(traversedArray:number[]): number[]{
+    traversedArray.push(this.#value);
+    for (let i = 0; i< this.#children.length; i++) {
+      this.#children[i].#depFirTraRec(traversedArray)
+    }
+    return traversedArray;
+  }
+
   stringify():string{
     let outputString = this.#value.toString() + "\n"
 
@@ -53,6 +69,7 @@ export class Tree {
       outputString = this.#children[i].#str(outputString, level + 1)
     }
     return outputString;
-
   }
+
+
 }
