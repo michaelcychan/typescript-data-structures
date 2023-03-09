@@ -3,12 +3,14 @@ This repo is for me to learn the basic data strcutures
 
 I attempt to learn different data structures by building them from scratch using TypeScript.
 
-## Basic Linked List
+## Linked List
+
 The Linked List Class `MyLinkedList` stores generic type. Each `MyLinkedList` consists of instances of the `MyNode` class.  
 
 Each `MyNode` stores a generic data and a pointer to the next `MyNode`.  
 
-The `MyLinkedList` class has the following functions:  
+The `MyLinkedList` class has the following methods:  
+
 ```
 .length()
 // to return the length of the list
@@ -37,11 +39,13 @@ The `MyLinkedList` class has the following functions:
 ```
 
 ## Doubly Linked List
+
 The Doubly Linked List Class `TwoWayLinkedList` is a generic class which can store different types of data. Each `TwoWayLinkedList` consists of instances of the `MyTwoWayNode` class, which also stores generic type of data. Only nodes storing the same type of data can be linked together. 
 
 Each `MyTwoWayNode` stores one data and two pointers, one to the next and one to the previous `MyTwoWayNode`.  
 
-The `TwoWayLinkedList` class has the following functions: 
+The `TwoWayLinkedList` class has the following methods:  
+
 
 ```
 .getHead()
@@ -71,8 +75,10 @@ stringify()
 .removeByValue(value)
 // remove the node with the target value
 ```
+
 ## Queue
-The `MyQueue` class utilises the `MyNumLinkedList` class. A queue stores and removes data in FIFO principle. `MyQueue` class has the following functions:
+
+The `MyQueue` class utilises the `MyNumLinkedList` class. A queue stores and removes data in FIFO principle. `MyQueue` class has the following methods:
 
 ```
 .getMaxSize()
@@ -92,7 +98,8 @@ The `MyQueue` class utilises the `MyNumLinkedList` class. A queue stores and rem
 ```
 
 ## Stack
-The `MyStack` class utilises the `MyNumLinkedList` class. A queue stores and removes data in *FILO* principle. `MyStack` class has the following functions:
+
+The `MyStack` class utilises the `MyNumLinkedList` class. A queue stores and removes data in *FILO* principle. `MyStack` class has the following methods:
 
 ```
 .getMaxSize()
@@ -113,7 +120,7 @@ The `MyStack` class utilises the `MyNumLinkedList` class. A queue stores and rem
 
 ## Hash Map
 
-The `MyHash` class utilises the `MyLinkedList` class to store key-value pairs. `MyHash` class has the following functions:  
+The `MyHash` class utilises the `MyLinkedList` class to store key-value pairs. `MyHash` class has the following methods:  
 
 ```
 .set(key, value)
@@ -124,4 +131,38 @@ The `MyHash` class utilises the `MyLinkedList` class to store key-value pairs. `
 
 .delete(key)
 // delete the key-value pair
+```
+
+## Tree
+
+The `Tree` class stores data in a tree format, it has the following methods:
+
+```
+.getValue()
+// return the data stored in this Tree node
+
+.addChild()
+// add a child tree node to the current node
+
+.removeChild(target Tree node / value)
+// it removes the target tree node by comparing the value of the two nodes, or directly value to the the tree node
+
+.getChildren()
+// returns the array containing the children nodes
+
+.breadthFirstTraversal()
+// returns an array of values of all nodes in this tree with Breadth First Traversal, iteratively.
+
+.depthFirstTraversalRecursive()
+// returns an array of values of all nodes in this tree with Depth First Traversal, recursively.
+
+.stringify()
+// [for string and number typed trees only] returns a string that shows the tree structure, example:
+
+root
+-- branch1
+-- -- deeper branch
+-- -- -- leave
+-- -- -- anotherleave
+-- -- suddenbranch
 ```
