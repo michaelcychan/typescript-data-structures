@@ -166,3 +166,11 @@ root
 -- -- -- anotherleave
 -- -- suddenbranch
 ```
+## Binary Search
+
+`binarySearch()` is implemented to search the target from an array or number or string, the function returns the index of the target, and returns -1 if the target is not found.  
+It will throw errors in the following conditions:
+
+- array is not sorted in ascending order
+- the target type is not the same type of the array elements  
+
