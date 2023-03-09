@@ -1,8 +1,8 @@
-export class Tree {
-  #value:number;
-  #children:Tree[];
+export class Tree<Type> {
+  #value:Type;
+  #children:Tree<Type>[];
 
-  constructor(value:number) {
+  constructor(value:Type) {
     this.#value = value;
     this.#children = [];
   }
@@ -11,7 +11,7 @@ export class Tree {
     return this.#value;
   }
 
-  addChild(child:number|Tree) {
+  addChild(child:Type|Tree<Type>) {
     if (child instanceof Tree) {
       this.#children.push(child)
     } else {
@@ -19,7 +19,7 @@ export class Tree {
     }
   }
 
-  removeChild(childToBeRemoved:number|Tree) {
+  removeChild(childToBeRemoved:Type|Tree<Type>) {
     this.#children = this.#children.filter(child => {
       if (childToBeRemoved instanceof Tree) {
         return childToBeRemoved.getValue() !== child.#value
@@ -33,10 +33,10 @@ export class Tree {
     return this.#children;
   }
 
-  breadthFirstTraversal():number[] {
-    const traversedArray:number[] = [this.#value];
+  breadthFirstTraversal():Type[] {
+    const traversedArray:Type[] = [this.#value];
     if (this.#children.length > 0) {
-      let stack:Tree[] = [...this.#children];
+      let stack:Tree<Type>[] = [...this.#children];
       while (stack.length > 0) {
         let currentTree = stack.shift()
         if (currentTree) {
@@ -48,15 +48,15 @@ export class Tree {
     return traversedArray;
   }
 
-  depthFirstTraversalRecursive():number[] {
-    const traversedArray:number[] = [this.#value]
+  depthFirstTraversalRecursive():Type[] {
+    const traversedArray:Type[] = [this.#value]
     for (let i = 0 ; i < this.#children.length; i++) {
       this.#children[i].#depFirTraRec(traversedArray);
     }
     return traversedArray
   }
 
-  #depFirTraRec(traversedArray:number[]): number[]{
+  #depFirTraRec(traversedArray:Type[]): Type[]{
     traversedArray.push(this.#value);
     for (let i = 0; i< this.#children.length; i++) {
       this.#children[i].#depFirTraRec(traversedArray)
@@ -65,10 +65,22 @@ export class Tree {
   }
 
   stringify():string{
-    let outputString = this.#value.toString() + "\n"
-    for (let i = 0; i < this.#children.length; i++) {
-      outputString = this.#children[i].#str(outputString, 1)
+    let outputString;
+    
+    if (typeof this.#value === "number") {
+      outputString = this.#value.toString() + "\n"
+      for (let i = 0; i < this.#children.length; i++) {
+        outputString = this.#children[i].#str(outputString, 1)
+      }
+    } else if (typeof this.#value === "string") {
+      outputString = this.#value + "\n"
+      for (let i = 0; i < this.#children.length; i++) {
+        outputString = this.#children[i].#str(outputString, 1)
+      }
+    } else {
+      outputString = "type not string or number";
     }
+
     return outputString;
   }
 
@@ -76,9 +88,16 @@ export class Tree {
     for (let i = 0; i < level; i++) {
       outputString += "-- "
     }
-    outputString += this.#value.toString() + "\n";
-    for (let i = 0; i < this.#children.length; i ++) {
-      outputString = this.#children[i].#str(outputString, level + 1)
+    if (typeof this.#value === "number") {
+      outputString += this.#value.toString() + "\n";
+      for (let i = 0; i < this.#children.length; i ++) {
+        outputString = this.#children[i].#str(outputString, level + 1)
+      }
+    } else if (typeof this.#value === "string") {
+      outputString += this.#value + "\n";
+      for (let i = 0; i < this.#children.length; i ++) {
+        outputString = this.#children[i].#str(outputString, level + 1)
+      }
     }
     return outputString;
   }
