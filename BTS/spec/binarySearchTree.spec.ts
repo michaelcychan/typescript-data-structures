@@ -52,6 +52,59 @@ describe("initialisation", () => {
         expect(bst.getRightChild()!.getRightChild()).toBe(null);
       })
     });
+    describe("findNodeByValue", () => {
+      it("returns a correct node from left", () => {
+        const bst = new BinarySearchTree(50);
+        bst.addChild(46);
+        bst.addChild(44);
+        bst.addChild(40);
+        bst.addChild(42);
+  
+  
+        const targetNode = bst.findNodeByValue(42)
+        expect(targetNode).not.toBe(null);
+        expect(targetNode!.getData()).toBe(42);
+        expect(targetNode!.getLevel()).toBe(5);
+      });
+      it("returns null if absent", () => {
+        const bst = new BinarySearchTree(50);
+        bst.addChild(46);
+        bst.addChild(44);
+        bst.addChild(40);
+        bst.addChild(42);
+  
+        const targetNode = bst.findNodeByValue(35)
+        expect(targetNode).toBe(null);
+      });
+    });
+    describe("inorder traverse", ()=> {
+      it("simple traverse inorder and returns an array with ascending order", () => {
+        const bst = new BinarySearchTree(50);
+        bst.addChild(100);
+        bst.addChild(2);
+
+
+        const inorderArray = bst.inorderTraverse();
+        expect(inorderArray.length).toBe(3);
+        expect(inorderArray).toStrictEqual([2, 50, 100]);
+      })
+      it("traverse inorder and returns an array with ascending order", () => {
+        const bst = new BinarySearchTree(50);
+        bst.addChild(40);
+        bst.addChild(30);
+        bst.addChild(42);
+        bst.addChild(41);
+        bst.addChild(100);
+        bst.addChild(94);
+        bst.addChild(60);
+        bst.addChild(2);
+
+
+        const inorderArray = bst.inorderTraverse();
+        expect(inorderArray.length).toBe(9);
+        expect(inorderArray).toStrictEqual([2, 30, 40, 41, 42, 50, 60, 94, 100]);
+      })
+    })
   });
   describe("initialises with string", () => {
     it("initialises without error", () => {
@@ -63,15 +116,26 @@ describe("initialisation", () => {
       expect(bst.getRightChild()).toBe(null);
     })
   });
-  describe("throws when type mismatch", () => {
-    it("throws when adding string child to number node", () => {
-      const bst = new BinarySearchTree(42);
-      expect(()=> bst.addChild("wrong type")).toThrow("type mismatch")
+  describe("edge cases", () => {
+    describe("throws when type mismatch", () => {
+      it("throws when adding string child to number node", () => {
+        const bst = new BinarySearchTree(42);
+        expect(()=> bst.addChild("wrong type")).toThrow("type mismatch")
+      });
+      it("thros when adding number child to string node", () => {
+        const bst = new BinarySearchTree("root");
+        expect(()=> bst.addChild(42)).toThrow("type mismatch")
+      })
     });
-    it("thros when adding number child to string node", () => {
-      const bst = new BinarySearchTree("root");
-      expect(()=> bst.addChild(42)).toThrow("type mismatch")
+    describe("findNodeByValue", () => {
+      it("searches string in number node", () => {
+        const bst = new BinarySearchTree(50);
+        expect(()=> bst.findNodeByValue("target")).toThrow("type mismatch")
+      });
+      it("searches number in string node", () => {
+        const bst = new BinarySearchTree("root");
+        expect(()=> bst.findNodeByValue(70)).toThrow("type mismatch")
+      });
     })
-
   })
 })

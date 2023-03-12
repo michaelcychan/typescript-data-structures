@@ -31,7 +31,13 @@ export class BinarySearchTree {
     return this.right;
   }
 
-  findNodeByValue(data:string|string):BinarySearchTree|null{
+  private checkType(data:string |number){
+    if(typeof this.data !== typeof data){
+      throw "type mismatch"
+    }
+  }
+
+  findNodeByValue(data:number|string):BinarySearchTree|null{
     this.checkType(data);
     if (data === this.data){
       return this;
@@ -100,10 +106,22 @@ export class BinarySearchTree {
 
   }
 
-  private checkType(data:string |number){
-    if(typeof this.data !== typeof data){
-      throw "type mismatch"
-    }
+  inorderTraverse():(string|number)[]{
+    return this.inorder([]);
+
   }
+
+  private inorder(arr:(string|number)[]):(string|number)[] {
+    if (this.left) {
+      arr = [...this.left.inorder(arr)]
+    }
+    arr.push(this.data);
+    if (this.right) {
+      arr = [...this.right.inorder(arr)]
+    }
+    return arr
+  }
+
+
 }
 
