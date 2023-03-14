@@ -1,26 +1,35 @@
-export class BinarySearchTree {
-  
+import {MyStack} from '../../QueuesStacks/src/stack'
+
+class BSTNode {
   private data: string|number;
   private occurence:number =1;
-  private left: BinarySearchTree | null = null;
-  private right: BinarySearchTree | null = null;
-  private level: number;
-  
-  constructor(data:string|number){
+  private left: BSTNode | null = null;
+  private right: BSTNode | null = null;
+  private level:number;
+
+  constructor(data:string|number, level:number){
     this.data = data;
-    this.level = 1;
+    this.level = level;
   }
 
   getData(){
     return this.data;
   }
 
-  getLevel(){
-    return this.level;
-  }
-
   getOccurence(){
     return this.occurence;
+  }
+
+  addOccurence(){
+    this.occurence += 1;
+  }
+
+  reduceOccurence(){
+    this.occurence -= 1;
+  }
+
+  getLevel(){
+    return this.level;
   }
 
   getLeftChild(){
@@ -31,97 +40,204 @@ export class BinarySearchTree {
     return this.right;
   }
 
-  private checkType(data:string |number){
-    if(typeof this.data !== typeof data){
-      throw "type mismatch"
+  setLeftChild(leftChild:BSTNode){
+    this.left = leftChild;
+  }
+
+  setRightChild(rightChild:BSTNode) {
+    this.right = rightChild;
+  }
+}
+
+export class BinarySearchTree {
+  
+  private root: (BSTNode | null) = null;
+
+  constructor(data:(number|string|null)=null) {
+    if (data !== null) {
+      this.root = new BSTNode(data, 1);
     }
   }
 
-  findNodeByValue(data:number|string):BinarySearchTree|null{
-    this.checkType(data);
-    if (data === this.data){
-      return this;
-    }
-    if (data < this.data) {
-      if (this.left) {
-        return this.left.findNodeByValue(data);
-      } else {
-        return null
-      }
-    } else {
-      if (this.right) {
-        return this.right.findNodeByValue(data);
-      } else {
-        return null
-      }
-    }
+  getRoot(){
+    return this.root;
   }
 
   addChild(data:string|number) {
     this.checkType(data);
-    this.privateAddChild(data, 1);
-  }
-
-  private privateAddChild(data:string|number, levelCount:number) {
-    if (data === this.data) {
-      this.occurence += 1
-    } else if (data < this.data) {
-      if (this.left) {
-        this.left.privateAddChild(data, levelCount + 1)
-      } else {
-        this.left = new BinarySearchTree(data)
-        this.left.level += levelCount
-      }
+    let level = 1
+    if (!this.root) {
+      this.root = new BSTNode(data, level);
     } else {
-      if (this.right) {
-        this.right.privateAddChild(data, levelCount + 1)
-      } else {
-        this.right = new BinarySearchTree(data)
-        this.right.level += levelCount
+      let currentNode:(BSTNode|null) = this.root;
+      while (currentNode) {
+        if (currentNode.getData() === data) {
+          currentNode.addOccurence();
+          return
+        } else if (currentNode.getData() > data){
+          if (!currentNode.getLeftChild()) {
+            currentNode.setLeftChild(new BSTNode(data, level + 1));
+            return;
+          } else {
+            currentNode = currentNode.getLeftChild();
+            level += 1;
+          }
+        } else {
+          if (!currentNode.getRightChild()) {
+            currentNode.setRightChild(new BSTNode(data, level + 1))
+            return
+          } else {
+            currentNode = currentNode.getRightChild()
+            level += 1;
+          }
+        }
       }
     }
   }
 
-  removeChild(target:string|number){
-    this.checkType(target)
-    if (target === this.data) {
-      if (this.occurence > 1) {
-        this.occurence -= 1
-      } else {
-        // what to do if it is the last occurence??
-      }
-    } else if (target < this.data) {
-      if (this.left) {
-        this.left.removeChild(target)
-      } else {
-        // if cannot find node?
-      }
-    } else {
-      if (this.right) {
-        this.right.removeChild(target)
-      } else {
-        // if cannot find node?
-      }
+
+  private checkType(data:string |number){
+    if(this.root && typeof this.root.getData() !== typeof data){
+      throw "type mismatch"
+    }
+  }
+
+  findNodeByValue(data:number|string):BSTNode|null{
+    this.checkType(data);
+    let currentNode:(BSTNode|null) = this.root;
+    if (!currentNode) {
+      return null;
     }
 
+    while (currentNode) {
+      if (data === currentNode.getData()){
+        return currentNode;
+      }
+      if (data < currentNode.getData()) {
+        currentNode = currentNode.getLeftChild();
+      } else {
+        currentNode = currentNode.getRightChild();
+      }
+    }
+    return null;
+    
   }
+
+  // remove(target:string|number):(string|number|null){
+  //   this.checkType(target)
+  //   if (this.level === 1 && target === this.data && this.occurence === 1 && !this.left && !this.right) {
+  //     throw "cannot delete root"
+  //   }
+  //   if (target === this.data && this.occurence > 1) {
+  //     this.occurence -= 1;
+  //     return this.data
+  //   }
+  //   if (target < this.data) {
+  //     if (!this.left) {
+  //       return null
+  //     } else {
+  //       if(target === this.left.data && this.left.occurence === 1) {
+  //         if(!this.left.left && !this.left.right) {
+  //           // delete a node with no child
+  //           this.left = null
+  //           return target
+  //         } else if (!this.left.right && this.left.left) {
+  //           // delete a node with only left child
+  //           this.left = this.left.left
+  //           return target
+  //         } else if (!this.left.left && this.right) {
+  //           //delete a node with only right child
+  //           this.left = this.left.right
+  //           return target
+  //         } else {
+  //           // delete a node with two children
+  //           return -100
+
+  //         }
+
+  //       } else{
+  //         return this.left.remove(target);
+  //       }
+  //     }
+  //   } else if (target > this.data) {
+  //     if (!this.right) {
+  //       return null
+  //     } else {
+  //       if(target === this.right.data && this.right.occurence === 1) {
+  //         if(!this.right.left && !this.right.right) {
+  //           // delete a node with no child
+  //           this.right = null
+  //           return target
+  //         } else if (!this.right.right && this.right.left) {
+  //           // delete a node with only left child
+  //           this.right = this.right.left
+  //           return target
+  //         } else if (!this.right.left && this.right) {
+  //           //delete a node with only right child
+  //           this.right = this.right.right
+  //           return target
+  //         } else {
+  //           // delete a node with two children
+  //           return -100
+
+  //         }
+
+  //       } else{
+  //         return this.right.remove(target);
+  //       }
+  //     }
+  //   }
+  //   if (target > this.data && !this.right) {
+  //     return null
+  //   }
+  //   return -1100000
+  // }
+
 
   inorderTraverse():(string|number)[]{
-    return this.inorder([]);
-
-  }
-
-  private inorder(arr:(string|number)[]):(string|number)[] {
-    if (this.left) {
-      arr = [...this.left.inorder(arr)]
+    if (!this.root) {
+      return [];
     }
-    arr.push(this.data);
-    if (this.right) {
-      arr = [...this.right.inorder(arr)]
-    }
-    return arr
-  }
+    let arr:(string|number)[] = [];
 
+    // create a stack, push root to it the first thing in the while loop
+    const stack = new MyStack<BSTNode>;
+    let currentNode:(BSTNode|null) = this.root;
+
+    // getting to the left-est node
+    while (currentNode || stack.getSize() > 0) {
+      // going to the the left-est node
+      // adding every node on the way to stack
+      while(currentNode){
+        stack.push(currentNode);
+        currentNode = currentNode.getLeftChild();
+      }
+
+      // exited the inner while node
+      // meaning that currentNode is currently empty
+
+      // when stack is not empty, but currentNode is null
+      // that means we are at left-est node
+      if (stack.getSize() > 0 && !currentNode) {
+
+        // get the top of the stack
+        // this is the node before "no left node"
+        const popped = stack.pop()
+
+        // put the data into the output array
+        if (popped){
+          arr.push(popped.getData())
+
+          // also put the right node of the latest on top of the stack
+          const poppedRight = popped.getRightChild()
+          if (poppedRight) {
+            currentNode = poppedRight
+          }
+        }
+      }
+    }
+    return arr;
+  }
 
 }
 

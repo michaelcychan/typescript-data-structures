@@ -5,11 +5,11 @@ describe("initialisation", () => {
     it("initialises without error", () => {
       const bst = new BinarySearchTree(34);
   
-      expect(bst.getData()).toBe(34);
-      expect(bst.getLeftChild()).toBe(null);
-      expect(bst.getRightChild()).toBe(null);
-      expect(bst.getLevel()).toBe(1);
-      expect(bst.getOccurence()).toBe(1);
+      expect(bst.getRoot()!.getData()).toBe(34);
+      expect(bst.getRoot()!.getLeftChild()).toBe(null);
+      expect(bst.getRoot()!.getRightChild()).toBe(null);
+      expect(bst.getRoot()!.getLevel()).toBe(1);
+      expect(bst.getRoot()!.getOccurence()).toBe(1);
     });
     describe("adding Child", () => {
       it("add childs without duplicate", () => {
@@ -17,21 +17,22 @@ describe("initialisation", () => {
         bst.addChild(42);
         bst.addChild(30);
         bst.addChild(50);
+
+        expect(bst.getRoot()!.getData()).toBe(34);
+        expect(bst.getRoot()!.getLeftChild()).not.toBe(null);
+        expect(bst.getRoot()!.getRightChild()).not.toBe(null);
   
-        expect(bst.getLeftChild()).not.toBe(null);
-        expect(bst.getRightChild()).not.toBe(null);
+        expect(bst.getRoot()!.getLeftChild()!.getData()).toBe(30);
+        expect(bst.getRoot()!.getLeftChild()!.getLevel()).toBe(2);
+        expect(bst.getRoot()!.getLeftChild()!.getOccurence()).toBe(1);
+        expect(bst.getRoot()!.getRightChild()!.getData()).toBe(42);
+        expect(bst.getRoot()!.getRightChild()!.getLevel()).toBe(2);
+        expect(bst.getRoot()!.getRightChild()!.getOccurence()).toBe(1);
   
-        expect(bst.getLeftChild()!.getData()).toBe(30);
-        expect(bst.getLeftChild()!.getLevel()).toBe(2);
-        expect(bst.getLeftChild()!.getOccurence()).toBe(1);
-        expect(bst.getRightChild()!.getData()).toBe(42);
-        expect(bst.getRightChild()!.getLevel()).toBe(2);
-        expect(bst.getRightChild()!.getOccurence()).toBe(1);
-  
-        expect(bst.getRightChild()!.getRightChild()).not.toBe(null);
-        expect(bst.getRightChild()!.getRightChild()!.getData()).toBe(50);
-        expect(bst.getRightChild()!.getRightChild()!.getLevel()).toBe(3);
-        expect(bst.getRightChild()!.getRightChild()!.getOccurence()).toBe(1);
+        expect(bst.getRoot()!.getRightChild()!.getRightChild()).not.toBe(null);
+        expect(bst.getRoot()!.getRightChild()!.getRightChild()!.getData()).toBe(50);
+        expect(bst.getRoot()!.getRightChild()!.getRightChild()!.getLevel()).toBe(3);
+        expect(bst.getRoot()!.getRightChild()!.getRightChild()!.getOccurence()).toBe(1);
       });
       it("add child with duplicates", () => {
         const bst = new BinarySearchTree(34);
@@ -39,17 +40,17 @@ describe("initialisation", () => {
         bst.addChild(30);
         bst.addChild(42);
   
-        expect(bst.getLeftChild()).not.toBe(null);
-        expect(bst.getRightChild()).not.toBe(null);
+        expect(bst.getRoot()!.getLeftChild()).not.toBe(null);
+        expect(bst.getRoot()!.getRightChild()).not.toBe(null);
         
   
-        expect(bst.getLeftChild()!.getData()).toBe(30);
-        expect(bst.getLeftChild()!.getLevel()).toBe(2);
-        expect(bst.getLeftChild()!.getOccurence()).toBe(1);
-        expect(bst.getRightChild()!.getData()).toBe(42);
-        expect(bst.getRightChild()!.getLevel()).toBe(2);
-        expect(bst.getRightChild()!.getOccurence()).toBe(2);
-        expect(bst.getRightChild()!.getRightChild()).toBe(null);
+        expect(bst.getRoot()!.getLeftChild()!.getData()).toBe(30);
+        expect(bst.getRoot()!.getLeftChild()!.getLevel()).toBe(2);
+        expect(bst.getRoot()!.getLeftChild()!.getOccurence()).toBe(1);
+        expect(bst.getRoot()!.getRightChild()!.getData()).toBe(42);
+        expect(bst.getRoot()!.getRightChild()!.getLevel()).toBe(2);
+        expect(bst.getRoot()!.getRightChild()!.getOccurence()).toBe(2);
+        expect(bst.getRoot()!.getRightChild()!.getRightChild()).toBe(null);
       })
     });
     describe("findNodeByValue", () => {
@@ -85,7 +86,6 @@ describe("initialisation", () => {
 
 
         const inorderArray = bst.inorderTraverse();
-        expect(inorderArray.length).toBe(3);
         expect(inorderArray).toStrictEqual([2, 50, 100]);
       })
       it("traverse inorder and returns an array with ascending order", () => {
@@ -99,21 +99,81 @@ describe("initialisation", () => {
         bst.addChild(60);
         bst.addChild(2);
 
-
         const inorderArray = bst.inorderTraverse();
-        expect(inorderArray.length).toBe(9);
         expect(inorderArray).toStrictEqual([2, 30, 40, 41, 42, 50, 60, 94, 100]);
       })
-    })
+    });
+    // describe.skip("removeChild", () => {
+    //   it("removes the root node", () => {
+    //     const bst = new BinarySearchTree();
+    //     bst.addChild(50);
+    //     expect(() => bst.remove(50)).toThrow("cannot delete root");
+    //   });
+    //   it("removes a non-existing target from left", () => {
+    //     const bst = new BinarySearchTree();
+    //     bst.addChild(50);
+    //     bst.addChild(100);
+    //     bst.addChild(40);
+    //     bst.addChild(10);
+    //     bst.addChild(4);
+
+    //     const removed = bst.remove(5);
+    //     expect(removed).toBe(null);
+    //     const inorderArray = bst.inorderTraverse();
+    //     expect(inorderArray.length).toBe(5);
+    //     expect(inorderArray).toStrictEqual([4, 10, 40, 50, 100]);
+    //   });
+    //   it("removes from a left leaf of root", () => {
+    //     const bst = new BinarySearchTree(50);
+    //     bst.addChild(100);
+    //     bst.addChild(4);
+
+    //     const removed = bst.remove(4);
+    //     expect(removed).toBe(4);
+    //     const inorderArray = bst.inorderTraverse();
+    //     expect(inorderArray.length).toBe(2);
+    //     expect(inorderArray).toStrictEqual([50, 100]);
+    //   });
+    //   it("removes from a leaf from left branch of root", () => {
+    //     const bst = new BinarySearchTree(50);
+    //     bst.addChild(100);
+    //     bst.addChild(30);
+    //     bst.addChild(4);
+
+    //     const removed = bst.remove(4);
+    //     expect(removed).toBe(4);
+    //     const inorderArray = bst.inorderTraverse();
+    //     expect(inorderArray.length).toBe(3);
+    //     expect(inorderArray).toStrictEqual([30, 50, 100]);
+    //   });
+    //   it("reduces occurence from left branch of root", () => {
+    //     const bst = new BinarySearchTree(50);
+    //     bst.addChild(100);
+    //     bst.addChild(30);
+    //     bst.addChild(4);
+    //     bst.addChild(4);
+
+    //     expect(bst.findNodeByValue(4)!.getOccurence()).toBe(2);
+
+    //     const removed = bst.remove(4);
+    //     expect(removed).toBe(4);
+    //     const inorderArray = bst.inorderTraverse();
+    //     expect(inorderArray.length).toBe(4);
+    //     expect(inorderArray).toStrictEqual([4, 30, 50, 100]);
+
+    //     expect(bst.findNodeByValue(4)).not.toBeNull;
+    //     expect(bst.findNodeByValue(4)!.getOccurence()).toBe(1);
+    //   });
+    // });
   });
   describe("initialises with string", () => {
     it("initialises without error", () => {
 
       const bst = new BinarySearchTree("Root");
   
-      expect(bst.getData()).toBe("Root");
-      expect(bst.getLeftChild()).toBe(null);
-      expect(bst.getRightChild()).toBe(null);
+      expect(bst.getRoot()!.getData()).toBe("Root");
+      expect(bst.getRoot()!.getLeftChild()).toBe(null);
+      expect(bst.getRoot()!.getRightChild()).toBe(null);
     })
   });
   describe("edge cases", () => {
