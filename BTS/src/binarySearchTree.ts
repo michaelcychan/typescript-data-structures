@@ -123,6 +123,8 @@ export class BinarySearchTree {
 
   findInorderSuccessor(startingNode:BSTNode):(BSTNode|null){
 
+    // this is one method to do (simplest in my own opinion)
+    // we make use of the existing inorderTraverse method
     const inOrderArray = this.inorderTraverse();
     const startIdx = inOrderArray.findIndex((ele)=> ele === startingNode.getData())
     if (startIdx === inOrderArray.length - 1) {
