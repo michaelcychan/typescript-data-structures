@@ -78,6 +78,70 @@ describe("initialisation", () => {
         expect(targetNode).toBe(null);
       });
     });
+    describe("findInorderSuccessor", () => {
+      it("returns a correct node when starting node has a right child", () => {
+        const bst = new BinarySearchTree(50);
+        bst.addChild(30);
+        bst.addChild(44);
+        bst.addChild(40);
+        bst.addChild(42);
+  
+        const targetNode = bst.findInorderSuccessor(bst.findNodeByValue(30)!)
+        expect(targetNode).not.toBe(null);
+        expect(targetNode!.getData()).toBe(40);
+      });
+      it("returns correct node when starting node has a right child (case 2)", () => {
+        const bst = new BinarySearchTree(20);
+        bst.addChild(8);
+        bst.addChild(22);
+        bst.addChild(4);
+        bst.addChild(12);
+        bst.addChild(10);
+        bst.addChild(14);
+  
+        const targetNode = bst.findInorderSuccessor(bst.findNodeByValue(8)!)
+        expect(targetNode).not.toBe(null);
+        expect(targetNode!.getData()).toBe(10);
+      });
+      it("returns correct node when starting node has NOT a right child", () => {
+        const bst = new BinarySearchTree(20);
+        bst.addChild(8);
+        bst.addChild(22);
+        bst.addChild(4);
+        bst.addChild(12);
+        bst.addChild(10);
+        bst.addChild(14);
+  
+        const targetNode = bst.findInorderSuccessor(bst.findNodeByValue(10)!)
+        expect(targetNode).not.toBe(null);
+        expect(targetNode!.getData()).toBe(12);
+      });
+      it("returns correct node when successor node is root", () => {
+        const bst = new BinarySearchTree(20);
+        bst.addChild(8);
+        bst.addChild(22);
+        bst.addChild(4);
+        bst.addChild(12);
+        bst.addChild(10);
+        bst.addChild(14);
+  
+        const targetNode = bst.findInorderSuccessor(bst.findNodeByValue(14)!)
+        expect(targetNode).not.toBe(null);
+        expect(targetNode!.getData()).toBe(20);
+      });
+      it("returns null if node is rightmost", () => {
+        const bst = new BinarySearchTree(50);
+        bst.addChild(30);
+        bst.addChild(35);
+        bst.addChild(20);
+        bst.addChild(40);
+        bst.addChild(42);
+        bst.addChild(60);
+  
+        const targetNode = bst.findInorderSuccessor(bst.findNodeByValue(60)!)
+        expect(targetNode).toBe(null);
+      });
+    });
     describe("inorder traverse", ()=> {
       it("simple traverse inorder and returns an array with ascending order", () => {
         const bst = new BinarySearchTree(50);
@@ -101,7 +165,7 @@ describe("initialisation", () => {
 
         const inorderArray = bst.inorderTraverse();
         expect(inorderArray).toStrictEqual([2, 30, 40, 41, 42, 50, 60, 94, 100]);
-      })
+      });
     });
     // describe.skip("removeChild", () => {
     //   it("removes the root node", () => {

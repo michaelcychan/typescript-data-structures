@@ -108,7 +108,6 @@ export class BinarySearchTree {
     if (!currentNode) {
       return null;
     }
-
     while (currentNode) {
       if (data === currentNode.getData()){
         return currentNode;
@@ -120,7 +119,17 @@ export class BinarySearchTree {
       }
     }
     return null;
-    
+  }
+
+  findInorderSuccessor(startingNode:BSTNode):(BSTNode|null){
+
+    const inOrderArray = this.inorderTraverse();
+    const startIdx = inOrderArray.findIndex((ele)=> ele === startingNode.getData())
+    if (startIdx === inOrderArray.length - 1) {
+      return null
+    } else {
+      return this.findNodeByValue(inOrderArray[startIdx+1])
+    }
   }
 
   // remove(target:string|number):(string|number|null){
