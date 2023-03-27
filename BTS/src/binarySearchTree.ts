@@ -16,6 +16,10 @@ class BSTNode {
     return this.data;
   }
 
+  setData(data: (string|number)) {
+    this.data = data
+  }
+
   getOccurence(){
     return this.occurence;
   }
@@ -40,11 +44,11 @@ class BSTNode {
     return this.right;
   }
 
-  setLeftChild(leftChild:BSTNode){
+  setLeftChild(leftChild:(BSTNode | null)){
     this.left = leftChild;
   }
 
-  setRightChild(rightChild:BSTNode) {
+  setRightChild(rightChild:(BSTNode | null)) {
     this.right = rightChild;
   }
 }
@@ -250,5 +254,71 @@ export class BinarySearchTree {
     return arr;
   }
 
-}
+  remove(target: string | number): string | number | null {
+    // Initialize current node as root and parent node as null
+    let currentNode: BSTNode | null = this.root;
+    let parentNode: BSTNode | null = null;
 
+    // Find the node to remove and its parent
+    while (currentNode !== null) {
+      if (currentNode.getData() === target) {
+        break;
+      } else if (target < currentNode.getData()) {
+        parentNode = currentNode;
+        currentNode = currentNode.getLeftChild();
+      } else {
+        parentNode = currentNode;
+        currentNode = currentNode.getRightChild();
+      }
+    }
+
+    // If node not found, return null
+    if (currentNode === null) {
+      return null;
+    }
+
+    if (currentNode.getOccurence() > 1) {
+      currentNode.reduceOccurence()
+      return currentNode.getData()
+    }
+
+    // Case 1: Node has no children
+    if (currentNode.getLeftChild() === null && currentNode.getRightChild() === null) {
+      if (parentNode === null) {
+        // Node is root
+        this.root = null;
+      } else if (currentNode === parentNode.getLeftChild()) {
+        parentNode.setLeftChild(null);
+      } else {
+        parentNode.setRightChild(null);
+      }
+      return currentNode.getData();
+    }
+
+    // Case 2: Node has one child
+    if (currentNode.getLeftChild() === null || currentNode.getRightChild() === null) {
+      const childNode: BSTNode | null = currentNode.getLeftChild() || currentNode.getRightChild();
+      if (parentNode === null) {
+        // Node is root
+        this.root = childNode;
+      } else if (currentNode === parentNode.getLeftChild()) {
+        parentNode.setLeftChild(childNode);
+      } else {
+        parentNode.setRightChild(childNode);
+      }
+      return currentNode.getData();
+    }
+
+    // Case 3: Node has two children
+    const inorderSuccessor: (BSTNode|null) = this.findInorderSuccessor(currentNode);
+    if (inorderSuccessor !== null) {
+
+      const tempData: string | number = inorderSuccessor.getData();
+      this.remove(inorderSuccessor.getData());
+      currentNode.setData(tempData);
+      return currentNode.getData();
+    }
+    return null
+  }
+
+}
