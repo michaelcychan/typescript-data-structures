@@ -1,7 +1,8 @@
 # My Own TypeScript Exercises
 
 ## To start a new project
-```
+
+```bash
 npm init -y
 npm add -D jest ts-jest @types/jest @types/node typescript
 npx tsc --init
@@ -13,7 +14,8 @@ in `package.json`, add `"build": "npx tsc"` inside `"script"`
 Create `/src` directory for source codes and `/spec` for spec files
 
 Create `tsconfig.json`, and add the following:
-```
+
+```json
 {
   "compilerOptions": {
     "module": "NodeNext",
@@ -30,7 +32,7 @@ Create `tsconfig.json`, and add the following:
 
 Create `jest.config.js` with the following content:  
 
-```
+```js
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
   preset: 'ts-jest',
@@ -41,7 +43,8 @@ module.exports = {
 ## Allow debugging in VS Code
 
 Create `./.vscode/launch.json` and use codes:
-```
+
+```json
 {
   "version": "0.2.0",
   "configurations": [
@@ -85,7 +88,7 @@ Create `./.vscode/launch.json` and use codes:
 
 create `jsconfig.json` inside `./spec` directory:  
 
-```
+```json
 {
   "typeAcquisition": {
       "include": [
