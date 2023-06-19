@@ -1,9 +1,9 @@
-export class MyVertex {
+export class MyVertex<T> {
   
-  #data: number;
-  #adjacentVertices: MyVertex[];
+  #data: T;
+  #adjacentVertices: MyVertex<T>[];
   
-  constructor(data:number) {
+  constructor(data:T) {
     this.#data = data;
     this.#adjacentVertices = [];
   }
@@ -12,8 +12,19 @@ export class MyVertex {
     return this.#data;
   }
 
-  getAdjacent() {
+  getEdges() {
     return this.#adjacentVertices;
+  }
+
+  addEdge(vertex: MyVertex<T>) {
+    if (!this.#adjacentVertices.includes(vertex)) {
+      this.#adjacentVertices.push(vertex);
+    }
+  }
+
+  removeEdge(vertex: MyVertex<T>){
+    // assume we need the exact object, not just equal content
+    this.#adjacentVertices = this.#adjacentVertices.filter(ver => ver !== vertex)
   }
 
 }
