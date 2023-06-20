@@ -9,6 +9,7 @@ jest.mock('../src/myVertex', () => {
         getData: jest.fn().mockReturnValue(data),
         getEdges: jest.fn().mockReturnValue([]),
         addEdge: jest.fn(),
+        removeEdge: jest.fn()
       };
     })
   };
@@ -20,6 +21,11 @@ describe('MyGraph', () => {
       const graph1 = new MyGraph();
 
       expect(graph1.showVertexNumber()).toBe(0);
+    });
+    it('initialises a directional graph', () => {
+      const directional = new MyGraph(true);
+
+      expect(directional.showVertexNumber()).toBe(0);
     })
   });
   describe('basic functions', () => {
@@ -42,7 +48,54 @@ describe('MyGraph', () => {
       graph1.addEdge(mockVer1, mockVer2);
       expect(mockVer1.addEdge).toBeCalledTimes(1);
       expect(mockVer2.addEdge).toBeCalledTimes(1);
+    });
+    it('Directed Graph: add edge', () => {
+      const mockVer1 = new MyVertex(50);
+      const mockVer2 = new MyVertex(60);
+      
+      const directionalGraph = new MyGraph(true);
+      directionalGraph.addVertex(mockVer1);
+      directionalGraph.addVertex(mockVer2);
+      
+      directionalGraph.addEdge(mockVer1, mockVer2);
+      expect(mockVer1.addEdge).toBeCalledTimes(1);
+      expect(mockVer2.addEdge).toBeCalledTimes(0);
+    })
+    it('removes edge', () => {
+      const mockVer1 = new MyVertex(50);
+      const mockVer2 = new MyVertex(60);
+      
+      const graph1 = new MyGraph();
+      graph1.addVertex(mockVer1);
+      graph1.addVertex(mockVer2);
+      
+      graph1.addEdge(mockVer1, mockVer2);
+      expect(mockVer1.addEdge).toBeCalledTimes(1);
+      expect(mockVer2.addEdge).toBeCalledTimes(1);
 
+      graph1.removeEdge(mockVer1, mockVer2);
+      expect(mockVer1.removeEdge).toBeCalledTimes(1);
+      expect(mockVer1.removeEdge).toBeCalledWith(mockVer2);
+      expect(mockVer2.removeEdge).toBeCalledTimes(1);
+      expect(mockVer2.removeEdge).toBeCalledWith(mockVer1);
+    });
+    it('directional graph: removes edge', () => {
+      const mockVer1 = new MyVertex(50);
+      const mockVer2 = new MyVertex(60);
+      
+      const directionalGraph = new MyGraph(true);
+      directionalGraph.addVertex(mockVer1);
+      directionalGraph.addVertex(mockVer2);
+      
+      directionalGraph.addEdge(mockVer1, mockVer2);
+      directionalGraph.addEdge(mockVer2, mockVer1);
+      expect(mockVer1.addEdge).toBeCalledTimes(1);
+      expect(mockVer2.addEdge).toBeCalledTimes(1);
+
+      directionalGraph.removeEdge(mockVer1, mockVer2);
+      expect(mockVer1.removeEdge).toBeCalledTimes(1);
+      expect(mockVer1.removeEdge).toBeCalledWith(mockVer2);
+      expect(mockVer2.removeEdge).toBeCalledTimes(0);
     })
   });
   describe('edge cases', () => {
@@ -67,6 +120,15 @@ describe('MyGraph', () => {
       expect(console.log).toBeCalledWith('creating a loop');
       consoleLogMock.mockRestore();
       
+    });
+    it('throws when removing an edge with vertex not from the graph', () => {
+      const mockVer1 = new MyVertex(50);
+      const mockVer2 = new MyVertex(60);
+      
+      const graph1 = new MyGraph();
+      expect(()=> {
+        graph1.removeEdge(mockVer1, mockVer2);
+      }).toThrowError('Both vertices must be in the graph');
     })
   })
 })

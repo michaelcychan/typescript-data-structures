@@ -2,9 +2,11 @@ import {MyVertex} from './myVertex';
 
 export class MyGraph<T> {
   #vertices: MyVertex<T>[];
+  #isDirected: boolean;
 
-  constructor() {
+  constructor(isDirected : boolean = false ) {
     this.#vertices = [];
+    this.#isDirected = isDirected
   }
 
   addVertex(vertex: MyVertex<T>){
@@ -25,6 +27,18 @@ export class MyGraph<T> {
       console.log('creating a loop');
     }
     vertex1.addEdge(vertex2);
-    vertex2.addEdge(vertex1);
+    if (!this.#isDirected) {
+      vertex2.addEdge(vertex1);
+    }
+  }
+
+  removeEdge(ver1: MyVertex<T>, ver2: MyVertex<T>) {
+    if (!this.#vertices.includes(ver1) || !this.#vertices.includes(ver2)) {
+      throw new Error('Both vertices must be in the graph');
+    }
+    ver1.removeEdge(ver2);
+    if (!this.#isDirected) {
+      ver2.removeEdge(ver1);
+    }
   }
 }
