@@ -1,5 +1,17 @@
 import {MyVertex} from '../src/myVertex';
 
+import {MyEdge} from '../src/myEdge';
+
+jest.mock('../src/myEdge', () => {
+  return {
+    MyEdge: jest.fn().mockImplementation((start, end) => {
+      return {
+        getEnd: jest.fn().mockReturnValue(end)
+      }
+    })
+  }
+})
+
 describe('MyVertex', () => {
   describe('initialisation', () => {
     it('initialises with a number, returns proper data', () => {
@@ -36,7 +48,7 @@ describe('MyVertex', () => {
       ver1.addEdge(ver2);
       
       expect(ver1.getEdges().length).toBe(1);
-      expect(ver1.getEdges()[0]).toBe(ver2);
+      expect(ver1.getEdges()[0].getEnd()).toBe(ver2);
     });
     it('removes an edge', () => {
       const ver1 = new MyVertex('Tseung Kwan O');
@@ -76,7 +88,7 @@ describe('MyVertex', () => {
       ver1.addEdge(ver2);
       
       expect(ver1.getEdges().length).toBe(1);
-      expect(ver1.getEdges()[0]).toBe(ver2);
+      expect(ver1.getEdges()[0].getEnd()).toBe(ver2);
     });
     it('removes an non-existent edge', () => {
       const ver1 = new MyVertex('Tseung Kwan O');
